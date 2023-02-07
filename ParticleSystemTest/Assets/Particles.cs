@@ -9,10 +9,12 @@ public class Particles : MonoBehaviour
     private void Start()
     {
         part = GetComponent<ParticleSystem>();
-        Invoke("StartParticles", 3);
-        Debug.Log("Waiting 3 seconds...");
+        StartParticles();
     }
 
+    /// <summary>
+    /// Starts the particle simulation
+    /// </summary>
     private void StartParticles()
     {
         part.Play();
