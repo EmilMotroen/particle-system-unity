@@ -20,14 +20,11 @@ public class Particle : MonoBehaviour
 		{
 			Debug.Log("Successful hit on sensor " + other.name);
 		}
-	}
-
-	private void OnTriggerExit(Collider other)
-	{
 		if (other.CompareTag("Floor"))
 		{
 			rb.constraints = RigidbodyConstraints.FreezePositionX |
 				RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
+			ParticleSpawner._numberOfParticles--;  // Create new particles when one hits the floor
 		}
 	}
 }

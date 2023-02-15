@@ -7,17 +7,22 @@ public class ParticleSpawner : MonoBehaviour
     [SerializeField] private GameObject _particle;
     [SerializeField] private GameObject _spawnBox;
 
-
-    private int _numberOfParticles = 0;
-    private int _maxParticles = 1;
-    private float _particleLifetime = 1.5f;
+    public static int _numberOfParticles = 0;
+    private int _maxParticles = 5;
 
     private void Start()
     {
+	}
+
+    private void Update()
+    {
 		if (_numberOfParticles < _maxParticles)
 		{
-            var particleCopy = Instantiate(_particle);
-			++_numberOfParticles;
+			if (Input.GetButtonDown("newParticle"))
+			{
+				Instantiate(_particle);
+				++_numberOfParticles;
+			}	
 		}
 	}
 }
