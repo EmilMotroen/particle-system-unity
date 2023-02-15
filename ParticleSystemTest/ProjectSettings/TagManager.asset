@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Sensor
   - Particle
+  - Floor
   layers:
   - Default
   - TransparentFX
