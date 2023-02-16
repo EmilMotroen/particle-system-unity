@@ -5,6 +5,8 @@ MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - _particle: {fileID: 926148212396865715, guid: da2a7b611f2475a42bf218963998871a, type: 3}
+  - _spawnBox: {instanceID: 0}
+  - _alpide: {fileID: -3279577645984793880, guid: 9438fff7fd6613a408c8cafab850cfb6, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
