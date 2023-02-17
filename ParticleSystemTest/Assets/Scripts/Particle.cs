@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Particle : MonoBehaviour
 {
-    private Particle particle;
-	[SerializeField] private TrailRenderer trail;
-	[SerializeField] private Rigidbody rb;
+    private Particle _particle;
+	[SerializeField] private TrailRenderer _trail;
+	[SerializeField] private Rigidbody _rb;
 
 	private float _particleLifetime = 10.0f;
 
 	private void Start()
 	{
-		particle = GetComponent<Particle>();
+		_particle = GetComponent<Particle>();
 		//trail.transform.position = particle.transform.position;
 	}
 
@@ -25,7 +25,7 @@ public class Particle : MonoBehaviour
 		if (other.CompareTag("Floor"))
 		{
 			// Freeze particle to prevent it from moving forever
-			rb.constraints = RigidbodyConstraints.FreezePositionX |
+			_rb.constraints = RigidbodyConstraints.FreezePositionX |
 				RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
 			Destroy(gameObject, _particleLifetime);
 			ParticleSpawner._numberOfParticles--;  // Create new particles when one hits the floor

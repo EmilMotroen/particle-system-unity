@@ -259,5 +259,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 712b3affcbf33c34387f8c25c3db795a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trail: {fileID: 926148212305031509}
-  rb: {fileID: 926148212396865726}
+  _trail: {fileID: 926148212305031509}
+  _rb: {fileID: 926148212396865726}
