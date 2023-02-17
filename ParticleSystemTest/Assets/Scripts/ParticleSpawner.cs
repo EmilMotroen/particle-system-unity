@@ -39,7 +39,7 @@ public class ParticleSpawner : MonoBehaviour
 		_floorBox.transform.position = new Vector3(_alpidePos.x, floorBoxHeight, _alpidePos.z);
 
 		_spawnBox.transform.localScale = new Vector3(_sizeOfBoxX, .2f, _sizeOfBoxZ);
-		_floorBox.transform.localScale = new Vector3(_sizeOfBoxX, .2f, _sizeOfBoxZ);
+		_floorBox.transform.localScale = new Vector3(_sizeOfBoxX * 10, .2f, _sizeOfBoxZ * 10);
 	}
 
 	private void Update()
@@ -49,7 +49,6 @@ public class ParticleSpawner : MonoBehaviour
 			if (Input.GetButtonDown("newParticle"))
 			{
 				var position = new Vector3(Random.Range(0, _sizeOfBoxX), 14, Random.Range(0, _sizeOfBoxZ));
-				Debug.Log($"position: {position}");
 				Instantiate(_particle, position, Quaternion.identity);
 				++_numberOfParticles;
 			}	
