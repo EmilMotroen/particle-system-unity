@@ -17,12 +17,19 @@ public class ParticleSpawner : MonoBehaviour
 
 	private void Start()
 	{
+		SetSpawnboxAndFloorboxSizes();
+	}
+
+	/// <summary>
+	/// Makes the spawn box and floor box be the same size as the alpide
+	/// </summary>
+	private void SetSpawnboxAndFloorboxSizes()
+	{
 		_sizeOfBoxX = _alpide.GetComponent<MeshRenderer>().bounds.size.x;
 		_sizeOfBoxZ = _alpide.GetComponent<MeshRenderer>().bounds.size.z;
 
 		_spawnBox.transform.localScale = new Vector3(_sizeOfBoxX, .2f, _sizeOfBoxZ);
 		_floorBox.transform.localScale = new Vector3(_sizeOfBoxX, .2f, _sizeOfBoxZ);
-		Debug.Log($"x: {_sizeOfBoxX} z: {_sizeOfBoxZ}");
 	}
 
 	private void Update()
