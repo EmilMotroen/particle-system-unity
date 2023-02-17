@@ -14,19 +14,29 @@ public class ParticleSpawner : MonoBehaviour
     private int _maxParticles = 5;
 	private float _sizeOfBoxX;
 	private float _sizeOfBoxZ;
+	private Vector3 _alpidePos;
 
 	private void Start()
 	{
-		SetSpawnboxAndFloorboxSizes();
+		SetSpawnboxAndFloorboxSizesAndPositions();
 	}
 
 	/// <summary>
-	/// Makes the spawn box and floor box be the same size as the alpide
+	/// Makes the spawn box and floor box be the same size as the alpide and positions them on the
+	/// same x and z positions
 	/// </summary>
-	private void SetSpawnboxAndFloorboxSizes()
+	private void SetSpawnboxAndFloorboxSizesAndPositions()
 	{
 		_sizeOfBoxX = _alpide.GetComponent<MeshRenderer>().bounds.size.x;
 		_sizeOfBoxZ = _alpide.GetComponent<MeshRenderer>().bounds.size.z;
+		_alpide.GetComponent<Transform>().position = new Vector3(_sizeOfBoxX / 2, 0, _sizeOfBoxZ / 2);
+		_alpidePos = _alpide.GetComponent<Transform>().position;
+
+		float spawnBoxHeight = _alpidePos.y + 14;
+		float floorBoxHeight = _alpidePos.y - 14;
+
+		_spawnBox.transform.position = new Vector3(_alpidePos.x, spawnBoxHeight, _alpidePos.z);
+		_floorBox.transform.position = new Vector3(_alpidePos.x, floorBoxHeight, _alpidePos.z);
 
 		_spawnBox.transform.localScale = new Vector3(_sizeOfBoxX, .2f, _sizeOfBoxZ);
 		_floorBox.transform.localScale = new Vector3(_sizeOfBoxX, .2f, _sizeOfBoxZ);
@@ -38,7 +48,9 @@ public class ParticleSpawner : MonoBehaviour
 		{
 			if (Input.GetButtonDown("newParticle"))
 			{
-				Instantiate(_particle);
+				var position = new Vector3(Random.Range(0, _sizeOfBoxX), 14, Random.Range(0, _sizeOfBoxZ));
+				Debug.Log($"position: {position}");
+				Instantiate(_particle, position, Quaternion.identity);
 				++_numberOfParticles;
 			}	
 		}
