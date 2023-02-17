@@ -1,2 +1,3 @@
-# particle-system-unity
-Simulate a particle system in Unity, maybe also use real data eventually.
+# Particle System Unity
+
+Simulate particles and their interaction with sensors in Unity for part of a bachelor project
