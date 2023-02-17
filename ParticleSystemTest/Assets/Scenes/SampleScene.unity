@@ -713,7 +713,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _particle: {fileID: 926148212396865715, guid: da2a7b611f2475a42bf218963998871a, type: 3}
-  _spawnBox: {fileID: 0}
+  _spawnBox: {fileID: 1553071812}
   _alpide: {fileID: 1071932034}
 --- !u!1 &1562700419
 GameObject:

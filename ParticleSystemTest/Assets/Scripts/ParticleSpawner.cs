@@ -7,6 +7,7 @@ public class ParticleSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject _particle;
     [SerializeField] private GameObject _spawnBox;
+	[SerializeField] private GameObject _floorBox;
 	[SerializeField] private GameObject _alpide;
 
     public static int _numberOfParticles = 0;
@@ -20,12 +21,10 @@ public class ParticleSpawner : MonoBehaviour
 		_sizeOfBoxZ = _alpide.GetComponent<MeshRenderer>().bounds.size.z;
 
 		_spawnBox.transform.localScale = new Vector3(_sizeOfBoxX, .2f, _sizeOfBoxZ);
+		_floorBox.transform.localScale = new Vector3(_sizeOfBoxX, .2f, _sizeOfBoxZ);
 		Debug.Log($"x: {_sizeOfBoxX} z: {_sizeOfBoxZ}");
 	}
 
-	/// <summary>
-	/// TODO: Destroy instatiated particles after the hit the floor
-	/// </summary>
 	private void Update()
     {
 		if (_numberOfParticles < _maxParticles)
