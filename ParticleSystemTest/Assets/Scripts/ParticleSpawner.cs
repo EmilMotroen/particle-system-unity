@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ParticleSpawner : MonoBehaviour
@@ -11,7 +8,9 @@ public class ParticleSpawner : MonoBehaviour
 	[SerializeField] private GameObject _alpide;
 
     public static int _numberOfParticles = 0;
-    private int _maxParticles = 5;
+    
+	private int _maxParticles = 5;
+	private float _distance = 15.0f;
 	private float _sizeOfBoxX;
 	private float _sizeOfBoxZ;
 	private Vector3 _alpidePos;
@@ -32,8 +31,8 @@ public class ParticleSpawner : MonoBehaviour
 		_alpide.GetComponent<Transform>().position = new Vector3(_sizeOfBoxX / 2, 0, _sizeOfBoxZ / 2);
 		_alpidePos = _alpide.GetComponent<Transform>().position;
 
-		float spawnBoxHeight = _alpidePos.y + 14;
-		float floorBoxHeight = _alpidePos.y - 14;
+		float spawnBoxHeight = _alpidePos.y + _distance;
+		float floorBoxHeight = _alpidePos.y - _distance;
 
 		_spawnBox.transform.position = new Vector3(_alpidePos.x, spawnBoxHeight, _alpidePos.z);
 		_floorBox.transform.position = new Vector3(_alpidePos.x, floorBoxHeight, _alpidePos.z);
@@ -48,7 +47,7 @@ public class ParticleSpawner : MonoBehaviour
 		{
 			if (Input.GetButtonDown("newParticle"))
 			{
-				var position = new Vector3(Random.Range(0, _sizeOfBoxX), 14, Random.Range(0, _sizeOfBoxZ));
+				var position = new Vector3(Random.Range(0, _sizeOfBoxX), _distance, Random.Range(0, _sizeOfBoxZ));
 				Instantiate(_particle, position, Quaternion.identity);
 				++_numberOfParticles;
 			}	
