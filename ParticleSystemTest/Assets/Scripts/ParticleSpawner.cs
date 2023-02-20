@@ -10,9 +10,9 @@ public class ParticleSpawner : MonoBehaviour
     public static int _numberOfParticles = 0;
     
 	private int _maxParticles = 5;
-	private int numPixelsX = 3;
-	private int numPixelsZ = 3;
-	private int layers = 2;
+	private int numPixelsX = 2;
+	private int numPixelsZ = 2;
+	private int layers = 4;
 	private float _distance = 15.0f;
 	private float _sizeOfBoxX;
 	private float _sizeOfBoxZ;
@@ -62,16 +62,20 @@ public class ParticleSpawner : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Instantiate the pixels in a grid, including stacking them
+	/// </summary>
 	private void PixelSetup()
 	{
 		float layerDistance = 3.0f;
-		for (int pixelsXDirection = 0; pixelsXDirection < numPixelsX; ++pixelsXDirection)
+		for (int layer = 0; layer < layers; ++layer)
 		{
-			for (int pixelsZDirection = 0; pixelsZDirection < numPixelsZ; ++pixelsZDirection)
+			for (int pixelsXDirection = 0; pixelsXDirection < numPixelsX; ++pixelsXDirection)
 			{
-				for (int layer = 0; layer < layers; ++layer)
+				for (int pixelsZDirection = 0; pixelsZDirection < numPixelsZ; ++pixelsZDirection)
 				{
-					var pixelPos = new Vector3(pixelsXDirection, layerDistance - layer, pixelsZDirection);
+					var pixelPos = new Vector3(pixelsXDirection + _sizeOfBoxX,
+						layerDistance - layer, pixelsZDirection + _sizeOfBoxZ);
 					Instantiate(_pixel, pixelPos, Quaternion.identity);
 				}
 			}
