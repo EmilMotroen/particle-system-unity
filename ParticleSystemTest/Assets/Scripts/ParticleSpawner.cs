@@ -10,17 +10,17 @@ public class ParticleSpawner : MonoBehaviour
     public static int _numberOfParticles = 0;
     
 	private int _maxParticles = 5;
-	private int numPixelsX = 2;
-	private int numPixelsZ = 2;
-	private int layers = 2;
-	private float _distance = 15.0f;
+	private int numPixelsX = 10;
+	private int numPixelsZ = 10;
+	private int layers = 1;
+	private float _distance = 10.0f;
 	private float _sizeOfBoxX;
 	private float _sizeOfBoxZ;
 	private Vector3 _pixelPos;
 
 	private void Start()
 	{
-		GetSizes();
+		GetSizesOfPixels();
 		PixelSetup();
 		SetSpawnboxAndFloorboxSizesAndPositions();
 	}
@@ -37,14 +37,16 @@ public class ParticleSpawner : MonoBehaviour
 		_spawnBox.transform.position = new Vector3(_pixelPos.x, spawnBoxHeight, _pixelPos.z);
 		_floorBox.transform.position = new Vector3(_pixelPos.x, floorBoxHeight, _pixelPos.z);
 
-		_spawnBox.transform.localScale = new Vector3(_sizeOfBoxX, .2f, _sizeOfBoxZ);
-		_floorBox.transform.localScale = new Vector3(_sizeOfBoxX * 10, .2f, _sizeOfBoxZ * 10);
+		_spawnBox.transform.localScale = new Vector3(10 + _sizeOfBoxX * numPixelsX + 10,
+			.2f, 10 + _sizeOfBoxZ * numPixelsZ + 10);
+		_floorBox.transform.localScale = new Vector3(10 + _sizeOfBoxX * numPixelsX + 10,
+			.2f, 10 + _sizeOfBoxZ * numPixelsZ + 10);
 	}
 
-	private void GetSizes()
+	private void GetSizesOfPixels()
 	{
-		_sizeOfBoxX = _pixel.GetComponent<MeshRenderer>().bounds.size.x / 2;
-		_sizeOfBoxZ = _pixel.GetComponent<MeshRenderer>().bounds.size.z / 2;
+		_sizeOfBoxX = _pixel.GetComponent<MeshRenderer>().bounds.size.x;
+		_sizeOfBoxZ = _pixel.GetComponent<MeshRenderer>().bounds.size.z;
 		_pixel.GetComponent<Transform>().position = new Vector3(_sizeOfBoxX, 0, _sizeOfBoxZ);
 		_pixelPos = _pixel.GetComponent<Transform>().position;
 	}
@@ -55,7 +57,8 @@ public class ParticleSpawner : MonoBehaviour
 		{
 			if (Input.GetButtonDown("newParticle"))
 			{
-				var position = new Vector3(Random.Range(0, _sizeOfBoxX), _distance, Random.Range(0, _sizeOfBoxZ));
+				var position = new Vector3(Random.Range(0, _sizeOfBoxX * numPixelsX), 
+					_distance, Random.Range(0, _sizeOfBoxZ * numPixelsZ));
 				Instantiate(_particle, position, Quaternion.identity);
 				++_numberOfParticles;
 			}	
@@ -67,7 +70,7 @@ public class ParticleSpawner : MonoBehaviour
 	/// </summary>
 	private void PixelSetup()
 	{
-		float layerDistance = 3.0f;
+		float layerDistance = 1.0f;
 		for (int layer = 0; layer < layers; ++layer)
 		{
 			for (int pixelsXDirection = 0; pixelsXDirection < numPixelsX; ++pixelsXDirection)
