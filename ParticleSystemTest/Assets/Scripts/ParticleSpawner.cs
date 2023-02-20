@@ -10,6 +10,9 @@ public class ParticleSpawner : MonoBehaviour
     public static int _numberOfParticles = 0;
     
 	private int _maxParticles = 5;
+	private int numPixelsX = 3;
+	private int numPixelsZ = 3;
+	private int layers = 2;
 	private float _distance = 15.0f;
 	private float _sizeOfBoxX;
 	private float _sizeOfBoxZ;
@@ -17,6 +20,8 @@ public class ParticleSpawner : MonoBehaviour
 
 	private void Start()
 	{
+		GetSizes();
+		PixelSetup();
 		SetSpawnboxAndFloorboxSizesAndPositions();
 	}
 
@@ -26,11 +31,6 @@ public class ParticleSpawner : MonoBehaviour
 	/// </summary>
 	private void SetSpawnboxAndFloorboxSizesAndPositions()
 	{
-		_sizeOfBoxX = _pixel.GetComponent<MeshRenderer>().bounds.size.x;
-		_sizeOfBoxZ = _pixel.GetComponent<MeshRenderer>().bounds.size.z;
-		_pixel.GetComponent<Transform>().position = new Vector3(_sizeOfBoxX / 2, 0, _sizeOfBoxZ / 2);
-		_pixelPos = _pixel.GetComponent<Transform>().position;
-
 		float spawnBoxHeight = _pixelPos.y + _distance;
 		float floorBoxHeight = _pixelPos.y - _distance;
 
@@ -39,6 +39,14 @@ public class ParticleSpawner : MonoBehaviour
 
 		_spawnBox.transform.localScale = new Vector3(_sizeOfBoxX, .2f, _sizeOfBoxZ);
 		_floorBox.transform.localScale = new Vector3(_sizeOfBoxX * 10, .2f, _sizeOfBoxZ * 10);
+	}
+
+	private void GetSizes()
+	{
+		_sizeOfBoxX = _pixel.GetComponent<MeshRenderer>().bounds.size.x;
+		_sizeOfBoxZ = _pixel.GetComponent<MeshRenderer>().bounds.size.z;
+		_pixel.GetComponent<Transform>().position = new Vector3(_sizeOfBoxX / 2, 0, _sizeOfBoxZ / 2);
+		_pixelPos = _pixel.GetComponent<Transform>().position;
 	}
 
 	private void Update()
@@ -51,6 +59,22 @@ public class ParticleSpawner : MonoBehaviour
 				Instantiate(_particle, position, Quaternion.identity);
 				++_numberOfParticles;
 			}	
+		}
+	}
+
+	private void PixelSetup()
+	{
+		float layerDistance = 3.0f;
+		for (int pixelsXDirection = 0; pixelsXDirection < numPixelsX; ++pixelsXDirection)
+		{
+			for (int pixelsZDirection = 0; pixelsZDirection < numPixelsZ; ++pixelsZDirection)
+			{
+				for (int layer = 0; layer < layers; ++layer)
+				{
+					var pixelPos = new Vector3(pixelsXDirection, layerDistance - layer, pixelsZDirection);
+					Instantiate(_pixel, pixelPos, Quaternion.identity);
+				}
+			}
 		}
 	}
 }
