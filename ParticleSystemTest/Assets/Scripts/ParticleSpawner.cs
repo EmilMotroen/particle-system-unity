@@ -5,7 +5,7 @@ public class ParticleSpawner : MonoBehaviour
     [SerializeField] private GameObject _particle;
     [SerializeField] private GameObject _spawnBox;
 	[SerializeField] private GameObject _floorBox;
-	[SerializeField] private GameObject _alpide;
+	[SerializeField] private GameObject _pixel;
 
     public static int _numberOfParticles = 0;
     
@@ -13,7 +13,7 @@ public class ParticleSpawner : MonoBehaviour
 	private float _distance = 15.0f;
 	private float _sizeOfBoxX;
 	private float _sizeOfBoxZ;
-	private Vector3 _alpidePos;
+	private Vector3 _pixelPos;
 
 	private void Start()
 	{
@@ -26,16 +26,16 @@ public class ParticleSpawner : MonoBehaviour
 	/// </summary>
 	private void SetSpawnboxAndFloorboxSizesAndPositions()
 	{
-		_sizeOfBoxX = _alpide.GetComponent<MeshRenderer>().bounds.size.x;
-		_sizeOfBoxZ = _alpide.GetComponent<MeshRenderer>().bounds.size.z;
-		_alpide.GetComponent<Transform>().position = new Vector3(_sizeOfBoxX / 2, 0, _sizeOfBoxZ / 2);
-		_alpidePos = _alpide.GetComponent<Transform>().position;
+		_sizeOfBoxX = _pixel.GetComponent<MeshRenderer>().bounds.size.x;
+		_sizeOfBoxZ = _pixel.GetComponent<MeshRenderer>().bounds.size.z;
+		_pixel.GetComponent<Transform>().position = new Vector3(_sizeOfBoxX / 2, 0, _sizeOfBoxZ / 2);
+		_pixelPos = _pixel.GetComponent<Transform>().position;
 
-		float spawnBoxHeight = _alpidePos.y + _distance;
-		float floorBoxHeight = _alpidePos.y - _distance;
+		float spawnBoxHeight = _pixelPos.y + _distance;
+		float floorBoxHeight = _pixelPos.y - _distance;
 
-		_spawnBox.transform.position = new Vector3(_alpidePos.x, spawnBoxHeight, _alpidePos.z);
-		_floorBox.transform.position = new Vector3(_alpidePos.x, floorBoxHeight, _alpidePos.z);
+		_spawnBox.transform.position = new Vector3(_pixelPos.x, spawnBoxHeight, _pixelPos.z);
+		_floorBox.transform.position = new Vector3(_pixelPos.x, floorBoxHeight, _pixelPos.z);
 
 		_spawnBox.transform.localScale = new Vector3(_sizeOfBoxX, .2f, _sizeOfBoxZ);
 		_floorBox.transform.localScale = new Vector3(_sizeOfBoxX * 10, .2f, _sizeOfBoxZ * 10);
