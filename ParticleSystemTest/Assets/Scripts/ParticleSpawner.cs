@@ -12,7 +12,7 @@ public class ParticleSpawner : MonoBehaviour
 	private int _maxParticles = 5;
 	private int numPixelsX = 2;
 	private int numPixelsZ = 2;
-	private int layers = 4;
+	private int layers = 2;
 	private float _distance = 15.0f;
 	private float _sizeOfBoxX;
 	private float _sizeOfBoxZ;
@@ -43,9 +43,9 @@ public class ParticleSpawner : MonoBehaviour
 
 	private void GetSizes()
 	{
-		_sizeOfBoxX = _pixel.GetComponent<MeshRenderer>().bounds.size.x;
-		_sizeOfBoxZ = _pixel.GetComponent<MeshRenderer>().bounds.size.z;
-		_pixel.GetComponent<Transform>().position = new Vector3(_sizeOfBoxX / 2, 0, _sizeOfBoxZ / 2);
+		_sizeOfBoxX = _pixel.GetComponent<MeshRenderer>().bounds.size.x / 2;
+		_sizeOfBoxZ = _pixel.GetComponent<MeshRenderer>().bounds.size.z / 2;
+		_pixel.GetComponent<Transform>().position = new Vector3(_sizeOfBoxX, 0, _sizeOfBoxZ);
 		_pixelPos = _pixel.GetComponent<Transform>().position;
 	}
 
@@ -74,8 +74,8 @@ public class ParticleSpawner : MonoBehaviour
 			{
 				for (int pixelsZDirection = 0; pixelsZDirection < numPixelsZ; ++pixelsZDirection)
 				{
-					var pixelPos = new Vector3(pixelsXDirection + _sizeOfBoxX,
-						layerDistance - layer, pixelsZDirection + _sizeOfBoxZ);
+					var pixelPos = new Vector3(pixelsXDirection,
+						layerDistance - layer, pixelsZDirection	);
 					Instantiate(_pixel, pixelPos, Quaternion.identity);
 				}
 			}
