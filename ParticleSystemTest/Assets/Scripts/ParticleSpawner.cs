@@ -5,18 +5,23 @@ public class ParticleSpawner : MonoBehaviour
     [SerializeField] private GameObject _particle;
     [SerializeField] private GameObject _spawnBox;
 	[SerializeField] private GameObject _floorBox;
-	[SerializeField] private GameObject _alpide;
+	[SerializeField] private GameObject _pixel;
 
-    public static int _numberOfParticles = 0;
+    public static int NumberOfParticles = 0;
     
 	private int _maxParticles = 5;
-	private float _distance = 15.0f;
+	private readonly int numPixelsX = 5;
+	private readonly int numPixelsZ = 5;
+	private readonly int layers = 2;
+	private float _distance = 10.0f;
 	private float _sizeOfBoxX;
 	private float _sizeOfBoxZ;
-	private Vector3 _alpidePos;
+	private Vector3 _pixelPos;
 
 	private void Start()
 	{
+		GetSizesOfPixels();
+		PixelSetup();
 		SetSpawnboxAndFloorboxSizesAndPositions();
 	}
 
@@ -26,31 +31,58 @@ public class ParticleSpawner : MonoBehaviour
 	/// </summary>
 	private void SetSpawnboxAndFloorboxSizesAndPositions()
 	{
-		_sizeOfBoxX = _alpide.GetComponent<MeshRenderer>().bounds.size.x;
-		_sizeOfBoxZ = _alpide.GetComponent<MeshRenderer>().bounds.size.z;
-		_alpide.GetComponent<Transform>().position = new Vector3(_sizeOfBoxX / 2, 0, _sizeOfBoxZ / 2);
-		_alpidePos = _alpide.GetComponent<Transform>().position;
+		float spawnBoxHeight = _pixelPos.y + _distance;
+		float floorBoxHeight = _pixelPos.y - _distance;
 
-		float spawnBoxHeight = _alpidePos.y + _distance;
-		float floorBoxHeight = _alpidePos.y - _distance;
+		_spawnBox.transform.position = new Vector3(_pixelPos.x, spawnBoxHeight, _pixelPos.z);
+		_floorBox.transform.position = new Vector3(_pixelPos.x, floorBoxHeight, _pixelPos.z);
 
-		_spawnBox.transform.position = new Vector3(_alpidePos.x, spawnBoxHeight, _alpidePos.z);
-		_floorBox.transform.position = new Vector3(_alpidePos.x, floorBoxHeight, _alpidePos.z);
+		_spawnBox.transform.localScale = new Vector3(10 + _sizeOfBoxX * numPixelsX + 10,
+			.2f, 10 + _sizeOfBoxZ * numPixelsZ + 10);
+		_floorBox.transform.localScale = new Vector3(10 + _sizeOfBoxX * numPixelsX + 10,
+			.2f, 10 + _sizeOfBoxZ * numPixelsZ + 10);
+	}
 
-		_spawnBox.transform.localScale = new Vector3(_sizeOfBoxX, .2f, _sizeOfBoxZ);
-		_floorBox.transform.localScale = new Vector3(_sizeOfBoxX * 10, .2f, _sizeOfBoxZ * 10);
+	private void GetSizesOfPixels()
+	{
+		_sizeOfBoxX = _pixel.GetComponent<MeshRenderer>().bounds.size.x;
+		_sizeOfBoxZ = _pixel.GetComponent<MeshRenderer>().bounds.size.z;
+		_pixel.GetComponent<Transform>().position = new Vector3(_sizeOfBoxX, 0, _sizeOfBoxZ);
+		_pixelPos = _pixel.GetComponent<Transform>().position;
 	}
 
 	private void Update()
     {
-		if (_numberOfParticles < _maxParticles)
+		if (NumberOfParticles < _maxParticles)
 		{
 			if (Input.GetButtonDown("newParticle"))
 			{
-				var position = new Vector3(Random.Range(0, _sizeOfBoxX), _distance, Random.Range(0, _sizeOfBoxZ));
+				var position = new Vector3(Random.Range(0, _sizeOfBoxX * numPixelsX), 
+					_distance, Random.Range(0, _sizeOfBoxZ * numPixelsZ));
 				Instantiate(_particle, position, Quaternion.identity);
-				++_numberOfParticles;
+				++NumberOfParticles;
 			}	
+		}
+	}
+
+	/// <summary>
+	/// Instantiate the pixels in a grid, including stacking them
+	/// </summary>
+	private void PixelSetup()
+	{
+		float layerDistance = 1.0f;
+		for (int layer = 0; layer < layers; ++layer)
+		{
+			for (int pixelsXDirection = 0; pixelsXDirection < numPixelsX; ++pixelsXDirection)
+			{
+				for (int pixelsZDirection = 0; pixelsZDirection < numPixelsZ; ++pixelsZDirection)
+				{
+					var pixelPos = new Vector3(pixelsXDirection + _sizeOfBoxX,
+						layerDistance - layer, pixelsZDirection + _sizeOfBoxZ);
+					var pixelCopy = Instantiate(_pixel, pixelPos, Quaternion.identity);
+					pixelCopy.name = $"pixel_{pixelsXDirection}_{pixelsZDirection}_{layer}";
+				}
+			}
 		}
 	}
 }
