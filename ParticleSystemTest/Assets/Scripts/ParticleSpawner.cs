@@ -7,12 +7,12 @@ public class ParticleSpawner : MonoBehaviour
 	[SerializeField] private GameObject _floorBox;
 	[SerializeField] private GameObject _pixel;
 
-    public static int _numberOfParticles = 0;
+    public static int NumberOfParticles = 0;
     
 	private int _maxParticles = 5;
-	private int numPixelsX = 10;
-	private int numPixelsZ = 10;
-	private int layers = 1;
+	private readonly int numPixelsX = 5;
+	private readonly int numPixelsZ = 5;
+	private readonly int layers = 2;
 	private float _distance = 10.0f;
 	private float _sizeOfBoxX;
 	private float _sizeOfBoxZ;
@@ -53,14 +53,14 @@ public class ParticleSpawner : MonoBehaviour
 
 	private void Update()
     {
-		if (_numberOfParticles < _maxParticles)
+		if (NumberOfParticles < _maxParticles)
 		{
 			if (Input.GetButtonDown("newParticle"))
 			{
 				var position = new Vector3(Random.Range(0, _sizeOfBoxX * numPixelsX), 
 					_distance, Random.Range(0, _sizeOfBoxZ * numPixelsZ));
 				Instantiate(_particle, position, Quaternion.identity);
-				++_numberOfParticles;
+				++NumberOfParticles;
 			}	
 		}
 	}
@@ -77,9 +77,10 @@ public class ParticleSpawner : MonoBehaviour
 			{
 				for (int pixelsZDirection = 0; pixelsZDirection < numPixelsZ; ++pixelsZDirection)
 				{
-					var pixelPos = new Vector3(pixelsXDirection,
-						layerDistance - layer, pixelsZDirection	);
-					Instantiate(_pixel, pixelPos, Quaternion.identity);
+					var pixelPos = new Vector3(pixelsXDirection + _sizeOfBoxX,
+						layerDistance - layer, pixelsZDirection + _sizeOfBoxZ);
+					var pixelCopy = Instantiate(_pixel, pixelPos, Quaternion.identity);
+					pixelCopy.name = $"pixel_{pixelsXDirection}_{pixelsZDirection}_{layer}";
 				}
 			}
 		}

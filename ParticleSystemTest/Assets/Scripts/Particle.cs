@@ -28,7 +28,7 @@ public class Particle : MonoBehaviour
 			_rb.constraints = RigidbodyConstraints.FreezePositionX |
 				RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
 			Destroy(gameObject, _particleLifetime);
-			ParticleSpawner._numberOfParticles--;  // Create new particles when one hits the floor
+			ParticleSpawner.NumberOfParticles--;  // Create new particles when one hits the floor
 		}
 	}
 }
