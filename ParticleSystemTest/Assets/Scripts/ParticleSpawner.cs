@@ -7,6 +7,8 @@ public class ParticleSpawner : MonoBehaviour
 	[SerializeField] private GameObject _floorBox;
 	[SerializeField] private GameObject _pixel;
 
+	public Material NoHit;
+	public Material OnHit;
     public static int NumberOfParticles = 0;
     
 	private int _maxParticles = 5;
@@ -80,6 +82,7 @@ public class ParticleSpawner : MonoBehaviour
 					var pixelPos = new Vector3(pixelsXDirection + _sizeOfBoxX,
 						layerDistance - layer, pixelsZDirection + _sizeOfBoxZ);
 					var pixelCopy = Instantiate(_pixel, pixelPos, Quaternion.identity);
+					//pixelCopy.GetComponent<Renderer>().material = NoHit;
 					pixelCopy.name = $"pixel_{pixelsXDirection}_{pixelsZDirection}_{layer}";
 				}
 			}
